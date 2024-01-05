@@ -1,6 +1,5 @@
-const mysql = require('mysql');
 const inquirer = require('inquirer');
-const connection = require('./config/connection');
+const connection = require('./config/connection.js');
 function employeeSection() {
     inquirer
     .prompt({
@@ -53,3 +52,4 @@ function checkCase(input) {
             break;
     }
 }
+employeeSection();
