@@ -2,23 +2,23 @@ const inquirer = require('inquirer');
 const connection = require('./config/connection.js');
 function employeeSection() {
     inquirer
-    .prompt({
-        name: "selected",
-        type: "list",
-        message: "Please indicate task",
-        choices: [
-            "Add Department", 
-            "Add Role", 
-            "Add Employee",
-            "View Departments", 
-            "View Roles", 
-            "View Employees",
-            "Update Employee Role",
-            "Delete Employee",
-            "Leave"
-        ]
-    })
-    .then(checkCase);
+        .prompt({
+            name: "selected",
+            type: "list",
+            message: "Please indicate task",
+            choices: [
+                "Add Department",
+                "Add Role",
+                "Add Employee",
+                "View Departments",
+                "View Roles",
+                "View Employees",
+                "Update Employee Role",
+                "Delete Employee",
+                "Leave"
+            ]
+        })
+        .then(checkCase);
 }
 
 function checkCase(input) {
@@ -52,4 +52,12 @@ function checkCase(input) {
             break;
     }
 }
-employeeSection();
+connection.connect((err) => {
+    if (err) {
+        console.error('Error connecting to the database:', err.message);
+        return;
+    }
+    console.log('Database connected.');
+    employeeSection();
+})
+
