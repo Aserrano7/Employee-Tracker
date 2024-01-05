@@ -19,4 +19,37 @@ function employeeSection() {
             "Leave"
         ]
     })
+    .then(checkCase);
+}
+
+function checkCase(input) {
+    switch (input.selected) {
+        case "Add Department":
+            addDepartment();
+            break;
+        case "Add Role":
+            addRole();
+            break;
+        case "Add Employee":
+            addEmployee();
+            break;
+        case "View Departments":
+            viewDepartments();
+            break;
+        case "View Roles":
+            viewRoles();
+            break;
+        case "View Employees":
+            viewEmployees();
+            break;
+        case "Update Employee Role":
+            updateEmployeeRole();
+            break;
+        case "Delete Employee":
+            deleteEmployee();
+            break;
+        case "Leave":
+            connection.end();
+            break;
+    }
 }
