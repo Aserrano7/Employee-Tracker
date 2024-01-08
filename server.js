@@ -148,3 +148,36 @@ function addRole() {
             });
         });
 }
+
+function addEmployee() {
+    inquirer
+        .prompt([
+            {
+                name: "firstName",
+                type: "input",
+                message: "Enter the first name of the new employee:"
+            },
+            {
+                name: "lastName",
+                type: "input",
+                message: "Enter the last name of the new employee:"
+            },
+            {
+                name: "roleId",
+                type: "input",
+                message: "Enter the role ID for the new employee:"
+            },
+            {
+                name: "managerId",
+                type: "input",
+                message: "Enter the manager ID for the new employee (or leave blank if none):"
+            }
+        ])
+        .then((answer) => {
+            connection.query("INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)", [answer.firstName, answer.lastName, answer.roleId, answer.managerId], (err, res) => {
+                if (err) throw err;
+                console.log(`Employee "${answer.firstName} ${answer.lastName}" added successfully!\n`);
+                employeeSection();
+            });
+        });
+}
