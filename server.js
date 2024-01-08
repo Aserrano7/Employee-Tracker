@@ -89,3 +89,18 @@ function viewDepartments() {
         employeeSection();
     });
 }
+function viewRoles() {
+    connection.query("SELECT * FROM role", (err, res) => {
+        if (err) throw err;
+        console.table(res);
+        employeeSection();
+    });
+}
+
+function viewEmployees() {
+    connection.query("SELECT * FROM employees", (err, res) => {
+        if (err) throw err;
+        console.table(res);
+        employeeSection();
+    });
+}
