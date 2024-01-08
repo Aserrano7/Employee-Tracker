@@ -170,7 +170,7 @@ function addEmployee() {
             {
                 name: "managerId",
                 type: "input",
-                message: "Enter the manager ID for the new employee (or leave blank if none):"
+                message: "Enter the manager ID for the new employee:"
             }
         ])
         .then((answer) => {
@@ -246,12 +246,56 @@ function updateEmployeeManager() {
         });
 }
 
+function viewEmployeesByManager() {
+    getManagers()
+        .then((managers) => {
+            inquirer
+                .prompt({
+                    name: "managerName",
+                    type: "list",
+                    message: "Select the manager to view employees:",
+                    choices: ["All Employees", ...managers],
+                })
+                .then((answer) => {
+                    let query;
+                    let params;
+
+                    if (answer.managerName === "All Employees") {
+                        // View all employees
+                        query = "SELECT * FROM employees";
+                        params = [];
+                    } else {
+                        // View employees by manager
+                        query = "SELECT * FROM employees WHERE CONCAT(manager.first_name, ' ', manager.last_name) = ?";
+                        params = [answer.managerName];
+                    }
+
+                    connection.query(query, params, (err, res) => {
+                        if (err) throw err;
+                        console.table(res);
+                        employeeSection();
+                    });
+                });
+        });
+}
+
+
 function getEmployees() {
     return new Promise((resolve, reject) => {
         connection.query("SELECT CONCAT(first_name, ' ', last_name) AS employee_name FROM employees", (err, res) => {
             if (err) reject(err);
             const employees = res.map((employee) => employee.employee_name);
             resolve(employees);
+        });
+    });
+}
+
+function getManagers() {
+    return new Promise((resolve, reject) => {
+        connection.query("SELECT DISTINCT CONCAT(manager.first_name, ' ', manager.last_name) AS manager_name FROM employees WHERE manager_id IS NOT NULL", (err, res) => {
+            if (err) reject(err);
+            const managers = res.map((manager) => manager.manager_name);
+            resolve(managers);
         });
     });
 }
