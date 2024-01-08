@@ -213,6 +213,39 @@ function updateEmployeeRole() {
         });
 }
 
+function updateEmployeeManager() {
+    getEmployees()
+        .then((employees) => {
+            inquirer
+                .prompt([
+                    {
+                        name: "employeeName",
+                        type: "list",
+                        message: "Select the employee to update:",
+                        choices: employees,
+                    },
+                    {
+                        name: "newManagerId",
+                        type: "list",
+                        message: "Select the new manager for the employee:",
+                        choices: ["None", ...employees],
+                    },
+                ])
+                .then((answers) => {
+                    const newManagerId = answers.newManagerId === "None" ? null : answers.newManagerId;
+                    connection.query(
+                        "UPDATE employees SET manager_id = ? WHERE CONCAT(first_name, ' ', last_name) = ?",
+                        [newManagerId, answers.employeeName],
+                        (err, res) => {
+                            if (err) throw err;
+                            console.log(`Employee manager updated successfully!\n`);
+                            employeeSection();
+                        }
+                    );
+                });
+        });
+}
+
 function getEmployees() {
     return new Promise((resolve, reject) => {
         connection.query("SELECT CONCAT(first_name, ' ', last_name) AS employee_name FROM employees", (err, res) => {
