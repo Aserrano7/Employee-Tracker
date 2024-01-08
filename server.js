@@ -181,3 +181,44 @@ function addEmployee() {
             });
         });
 }
+
+function updateEmployeeRole() {
+    getEmployees()
+        .then((employees) => {
+            inquirer
+                .prompt([
+                    {
+                        name: "employeeName",
+                        type: "list",
+                        message: "Select the employee to update:",
+                        choices: employees,
+                    },
+                    {
+                        name: "newRoleId",
+                        type: "input",
+                        message: "Enter the new role ID for the employee:"
+                    },
+                ])
+                .then((answers) => {
+                    connection.query(
+                        "UPDATE employees SET role_id = ? WHERE CONCAT(first_name, ' ', last_name) = ?",
+                        [answers.newRoleId, answers.employeeName],
+                        (err, res) => {
+                            if (err) throw err;
+                            console.log(`Employee role updated successfully!\n`);
+                            employeeSection();
+                        }
+                    );
+                });
+        });
+}
+
+function getEmployees() {
+    return new Promise((resolve, reject) => {
+        connection.query("SELECT CONCAT(first_name, ' ', last_name) AS employee_name FROM employees", (err, res) => {
+            if (err) reject(err);
+            const employees = res.map((employee) => employee.employee_name);
+            resolve(employees);
+        });
+    });
+}
