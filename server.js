@@ -5,17 +5,22 @@ function employeeSection() {
         .prompt({
             name: "selected",
             type: "list",
-            message: "Please indicate task",
+            message: "Please select an option:",
             choices: [
+                "View All Departments",
+                "View All Roles",
+                "View All Employees",
                 "Add Department",
                 "Add Role",
                 "Add Employee",
-                "View Departments",
-                "View Roles",
-                "View Employees",
                 "Update Employee Role",
+                "Update Employee Manager",
+                "View Employees By Manager",
+                "View Employees By Department",
+                "Delete Department",
+                "Delete Role",
                 "Delete Employee",
-                "Leave"
+                "Exit"
             ]
         })
         .then(checkCase);
@@ -23,6 +28,15 @@ function employeeSection() {
 
 function checkCase(input) {
     switch (input.selected) {
+        case "View All Departments":
+            viewDepartments();
+            break;
+        case "View All Roles":
+            viewRoles();
+            break;
+        case "View All Employees":
+            viewEmployees();
+            break;
         case "Add Department":
             addDepartment();
             break;
@@ -32,23 +46,30 @@ function checkCase(input) {
         case "Add Employee":
             addEmployee();
             break;
-        case "View Departments":
-            viewDepartments();
-            break;
-        case "View Roles":
-            viewRoles();
-            break;
-        case "View Employees":
-            viewEmployees();
-            break;
         case "Update Employee Role":
             updateEmployeeRole();
+            break;
+        case "Update Employee Manager":
+            updateEmployeeManager();
+            break;
+        case "View Employees By Manager":
+            viewEmployeesByManager();
+            break;
+        case "View Employees By Department":
+            viewEmployeesByDepartment();
+            break;
+        case "Delete Department":
+            deleteDepartment();
+            break;
+        case "Delete Role":
+            deleteRole();
             break;
         case "Delete Employee":
             deleteEmployee();
             break;
-        case "Leave":
+        case "Exit":
             connection.end();
+            console.log("Goodbye!");
             break;
     }
 }
@@ -60,4 +81,3 @@ connection.connect((err) => {
     console.log('Database connected.');
     employeeSection();
 })
-

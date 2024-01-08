@@ -1,5 +1,5 @@
 INSERT INTO
-    department (name)
+    department (department_name)
 VALUES
     ('Legal'),
     ('Sales'),
@@ -21,4 +21,4 @@ VALUES
     ('Tom', 'Hanks', 1, 4),
     ('Chris', 'Tucker', 2, 3),
     ('Gabriel', 'Iglesias', 3, 1),
-    ('Ralph', 'Barbosa', 4, 5);
+    ('Ralph', 'Barbosa', 4, 2);
