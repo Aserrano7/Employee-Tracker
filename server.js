@@ -120,3 +120,31 @@ function addDepartment() {
             });
         });
 }
+
+function addRole() {
+    inquirer
+        .prompt([
+            {
+                name: "title",
+                type: "input",
+                message: "Enter the title of the new role:"
+            },
+            {
+                name: "salary",
+                type: "input",
+                message: "Enter the salary for the new role:"
+            },
+            {
+                name: "departmentId",
+                type: "input",
+                message: "Enter the department ID for the new role:"
+            }
+        ])
+        .then((answer) => {
+            connection.query("INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)", [answer.title, answer.salary, answer.departmentId], (err, res) => {
+                if (err) throw err;
+                console.log(`Role "${answer.title}" added successfully!\n`);
+                employeeSection();
+            });
+        });
+}
