@@ -144,3 +144,63 @@ function addRole() {
     });
 
 };
+
+
+
+function addEmployee() {
+    connection.query('SELECT * FROM role', (err, roles) => {
+        if (err) console.log(err);
+        roles = roles.map((role) => {
+            return {
+                name: role.title,
+                value: role.id,
+            };
+        });
+        inquirer
+            .prompt([
+                {
+                    type: 'input',
+                    name: 'first_name',
+                    message: 'Enter first name of new employee...'
+                },
+                {
+                    type: 'input',
+                    name: 'last_name',
+                    message: 'Enter last name of new employee...'
+                },
+                {
+                    type: 'list',
+                    name: 'role_id',
+                    message: 'Enter new employee role...',
+                    choices: roles,
+                },
+                {
+                    type: 'list',
+                    name: 'manager_id',
+                    message: 'select a manager id (if no manager put 0)...',
+                    choices: [0, 1, 2, 3, 4]
+                }
+            ])
+            .then((answer) => {
+                console.log(answer.role);
+                const newManagerId = answer.manager_id === 0 ? null : answer.manager_id;
+                connection.query(
+                    'INSERT INTO employees SET ?',
+                    {
+                        first_name: answer.first_name,
+                        last_name: answer.last_name,
+                        role_id: answer.role_id,
+                        manager_id: newManagerId
+                    },
+                    (err) => {
+                        if (err) throw err;
+                        console.log('Updated Employee Roster;');
+                        viewEmployees();
+
+                    }
+                );
+            });
+
+    });
+
+};
