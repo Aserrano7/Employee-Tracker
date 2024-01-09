@@ -1,6 +1,7 @@
 DROP DATABASE IF EXISTS user_db;
 
 CREATE DATABASE user_db;
+
 USE user_db;
 
 CREATE TABLE department (
@@ -12,10 +13,10 @@ CREATE TABLE department (
 CREATE TABLE role (
     id INTEGER NOT NULL AUTO_INCREMENT,
     title VARCHAR(30) NOT NULL,
-    salary DECIMAL(10,4) NOT NULL,
+    salary DECIMAL(10, 4) NOT NULL,
     department_id INTEGER NOT NULL,
-    PRIMARY KEY (id)
-    
+    PRIMARY KEY (id),
+    FOREIGN KEY (department_id) REFERENCES department(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE employees (
@@ -24,5 +25,7 @@ CREATE TABLE employees (
     last_name VARCHAR(30) NOT NULL,
     role_id INTEGER NOT NULL,
     manager_id INTEGER NULL,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    FOREIGN KEY (role_id) REFERENCES role(id) ON DELETE RESTRICT ON UPDATE CASCADE,
+    FOREIGN KEY (manager_id) REFERENCES employees(id) ON DELETE SET NULL ON UPDATE CASCADE
 );
