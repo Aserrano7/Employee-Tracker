@@ -125,13 +125,13 @@ function addRole() {
                     choices: departments,
                 },
             ])
-            .then((data) => {
+            .then((answer) => {
                 connection.query(
                     'INSERT INTO role SET ?',
                     {
-                        title: data.new_role,
-                        salary: data.salary,
-                        department_id: data.department_id,
+                        title: answer.new_role,
+                        salary: answer.salary,
+                        department_id: answer.department_id,
                     },
                     function (err) {
                         if (err) throw err;
