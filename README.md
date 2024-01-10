@@ -7,8 +7,7 @@ A command-line application for managing employees, roles, and departments within
 
 ## Usage
 This video demonstrates the web application's appearance and functionality
-![This is a link to the video of how it works](https://app.screencastify.com/v2/watch/126YMZb98lhBVcXYplmX)
-
+https://app.screencastify.com/v2/watch/126YMZb98lhBVcXYplmX
 
 ## Credits
 I used the activities in the UCSD folder to help me with this project as well as the help of a tutor.
